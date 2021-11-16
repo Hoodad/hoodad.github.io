@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Unity WebGL Player | gleechi_importer</title>
+</head>
+
+<body style="text-align: center">
+  <canvas id="unity-canvas" width=960 height=600
+    style="width: 960px; height: 600px; background: #231F20"></canvas>
+  <script src="Build/webcam_test.loader.js"></script>
+  <script>
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      // Mobile device style: fill the whole browser client area with the game canvas:
+      var meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+      document.getElementsByTagName('head')[0].appendChild(meta);
+    }
+
+    createUnityInstance(document.querySelector("#unity-canvas"), {
+      dataUrl: "Build/webcam_test.data",
+      frameworkUrl: "Build/webcam_test.framework.js",
+      codeUrl: "Build/webcam_test.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+      companyName: "DefaultCompany",
+      productName: "gleechi_importer",
+      productVersion: "0.1",
+      // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
+      // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+    }).then((gameInstance) => {
+      const gameContainer = document.getElementById('unity-canvas');
+
+      gameContainer.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        const objectName = "WebDragOver";
+        const functionName = "OnDrag";
+        gameInstance.SendMessage(objectName, functionName);
+      });
+
+      gameContainer.addEventListener('drop', (event) => {
+        event.preventDefault();
+        const files = event.dataTransfer.files;
+
+        const objectName = "WebFileReceiver";
+        const functionName = "LoadFile";
+
+        for (let i = 0; i < files.length; i++) {
+
+          var file = files[i];
+          var msg = '{ ' +
+            '"url": "' + window.URL.createObjectURL(file) + '",' +
+            '"name": "' + file.name + '",' +
+            '"size_in_bytes": ' + file.size + ',' +
+            '"mime_type": "' + file.type + '" }';
+          console.log("Sending msg to object " + objectName + "." + functionName + "()" + " msg: " + msg);
+          gameInstance.SendMessage(objectName, functionName, msg);
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
