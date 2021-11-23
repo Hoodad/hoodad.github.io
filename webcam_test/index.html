@@ -3,18 +3,19 @@
 
 <head>
   <style>
-* { margin:0; padding:0; }
+    * { margin:0; padding:0; }
     html, body { width:100vw; height:100vh; }
-    canvas {
-  position: absolute;
-  display: block;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-}
+    canvas 
+    {
+      position: absolute;
+      display: block;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      margin: 0;
+      padding: 0;
+    }
   </style>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -39,9 +40,9 @@
     canvas.height = window.innerHeight;
 
     createUnityInstance(document.querySelector("#unity-canvas"), {
-      dataUrl: "Build/webcam_test.data",
-      frameworkUrl: "Build/webcam_test.framework.js",
-      codeUrl: "Build/webcam_test.wasm",
+      dataUrl: "Build/webcam_test.data.gz",
+      frameworkUrl: "Build/webcam_test.framework.js.gz",
+      codeUrl: "Build/webcam_test.wasm.gz",
         streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "gleechi_importer",
